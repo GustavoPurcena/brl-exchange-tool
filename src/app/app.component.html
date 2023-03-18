@@ -70,8 +70,58 @@
             class="divider">
           </div>
           <ng-template #exchangeHistory>
-            <div style="background-color: #F4F4F4;" fxLayout="column">
-              <div></div>
+            <div class="full-width history-background" fxLayout="column" fxLayoutAlign="center center">
+
+              <div class="full-width history-container" fxLayout="column" fxLayoutAlign="space-around center"
+                fxLayoutGap="16px">
+                <div *ngFor="let day of currencyHistory" class="history-box">
+                  <div class="full-width box-padding" fxLayout="column" fxLayoutAlign="space-around start"
+                    fxLayoutGap="8px" fxFlex>
+                    <div class="full-width" fxLayout="row" fxLayoutAlign="start center">
+                      <span class="date-value" style="color: #07B0FB">
+                        {{ day.date | date: 'dd/MM/yyyy' }}
+                      </span>
+                    </div>
+
+                    <div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="4px">
+                      <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="32px">
+                        <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span class="field-label">OPEN:&nbsp;&nbsp;</span>
+                          <span class="field-value">R$&nbsp;{{ (1 / day.open).toFixed(4) }}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span class="field-label">HIGH:&nbsp;&nbsp;</span>
+                          <span class="field-value">R$&nbsp;{{ (1 / day.high).toFixed(4) }}</span>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row" fxLayoutAlign="space-between start" fxLayoutGap="32px">
+                        <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span class="field-label">CLOSE:&nbsp;&nbsp;</span>
+                          <span class="field-value">R$&nbsp;{{ (1 / day.close).toFixed(4) }}</span>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between start">
+                          <span class="field-label">LOW:&nbsp;&nbsp;</span>
+                          <span class="field-value">R$&nbsp;{{ (1 / day.low).toFixed(4) }}</span>
+                        </div>
+                      </div>
+
+                      <div fxLayout="row" fxLayoutAlign="space-between center"
+                        [ngStyle]="{'color': day.isPositive ? '#69C669' : '#E54E4E' }">
+                        <span class="field-label">CLOSE DIFF (%):&nbsp;&nbsp;</span>
+                        <span class="field-value">{{ day.isPositive ? '+' : '-' }}
+                          {{ day.closingDiff.toFixed(2) }}%&nbsp;</span>
+                        <mat-icon *ngIf="day.isPositive; else negativeDiff">keyboard_arrow_up</mat-icon>
+                        <ng-template #negativeDiff>
+                          <mat-icon>keyboard_arrow_down</mat-icon>
+                        </ng-template>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div style="background-color: #07B0FB !important;" class="divider">
               </div>
             </div>

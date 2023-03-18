@@ -1,5 +1,6 @@
 .body {
     min-height: 98%;
+    padding-bottom: 8px;
 }
 
 .header {
@@ -67,11 +68,40 @@
 .divider {
     width: 99%;
     height: 2px;
-    left: 15px;
-    top: 76px;
     background-color: #D9D9D9;
     border-radius: 24px
 }
+
+.history-background {
+    background-color: #F4F4F4;
+
+    .history-container {
+        margin: 10px;
+
+        .history-box {
+            background-color: #FFFFFF !important;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+
+            .box-padding {
+                padding: 16px;
+            }
+        }
+    }
+}
+
+
+.field-label {
+    font-weight: 500;
+    font-size: 11px;
+    color: #3F3F3F;
+}
+
+.field-value {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+
 
 .footer {
     clear: both;

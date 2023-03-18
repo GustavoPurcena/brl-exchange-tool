@@ -20,4 +20,10 @@ export class ExchangeBrlService {
     return this.http.get(url);
   }
 
+  public getExchangeHistory(currency: string) {
+    let url = `${baseAPIURL}/open/dailyExchangeRate?apiKey=${APIKey}&from_symbol=BRL&to_symbol=${currency}`;
+
+    return this.http.get(url);
+  }
+
 }

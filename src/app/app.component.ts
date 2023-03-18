@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   collapsedHistory: boolean = true;
   currency: string = '';
   currencyObj: any = null;
+  currencyHistory: any[] = [];
 
   constructor(
     private exchangeBrlService: ExchangeBrlService
@@ -23,12 +24,27 @@ export class AppComponent implements OnInit {
   }
 
   getExchange() {
-    this.exchangeBrlService.getBrlExchange(this.currency).pipe(take(1)).subscribe(
-      (data) => {
+    this.exchangeBrlService.getBrlExchange(this.currency).pipe(take(1)).subscribe((data) => {
+      if (data.success) {
         this.currencyObj = data;
-        console.log(this.currencyObj)
       }
+    }
     );
+
+    this.exchangeBrlService.getExchangeHistory(this.currency).pipe(take(1)).subscribe((res: any) => {
+      if (res.success) {
+        this.currencyHistory = res.data;
+        // get only last 31 days (30 + 1 to get closing diff for day 30)
+        this.currencyHistory = this.currencyHistory.slice(0, 31);
+        for (let i = 0; i < 30; i++) {
+          this.currencyHistory[i].closingDiff = ((this.currencyHistory[i].close - this.currencyHistory[i + 1].close) / this.currencyHistory[i + 1].close) * 100;
+          this.currencyHistory[i].isPositive = Math.sign(this.currencyHistory[i].closingDiff) !== -1;
+          this.currencyHistory[i].closingDiff = Math.abs(this.currencyHistory[i].closingDiff);
+        }
+
+        this.currencyHistory = this.currencyHistory.slice(0, 30);
+      }
+    })
   }
 
 }
